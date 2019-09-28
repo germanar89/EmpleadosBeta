@@ -1,0 +1,170 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+
+#define TAME 10
+
+typedef struct
+{
+    int id;
+    char name[51];
+    char lastName[51];
+    float salary;
+    int sector;
+    int isEmpty;
+
+} eEmploye;
+
+eEmploye nuevoEmpleado(char name[],char lastName[], int sector, float salary, int id);
+void inicializarEmpleados(eEmploye vec[], int tam);
+int buscarLibre(eEmploye employes[], int tam);
+int cargarUnEmpleado(eEmploye employes[], int tam,int id);
+int menu();
+
+
+
+int main()
+{
+    eEmploye employes[TAME];
+
+    int id=1000;
+    char salir='n';
+
+    inicializarEmpleados(employes,TAME);
+
+    do
+    {
+
+        switch(menu())
+        {
+        case 1:
+
+            cargarUnEmpleado(employes,TAME,id);
+
+            break;
+        case 2:
+
+            break;
+        case 3:
+
+            break;
+        case 4:
+
+            break;
+        case 5:
+            fflush(stdin);
+            printf("desea salir? s/n ");
+            scanf("%c", &salir);
+            break;
+
+
+
+        }
+    }
+    while(salir =='n');
+
+
+
+    return 0;
+}
+int menu()
+{
+    system("cls");
+    int opcion;
+
+    printf("*** ABM EMPLEADOS ***\n\n");
+    printf("1. ALTAS:\n");
+    printf("2. MODIFICAR:\n");
+    printf("3. BAJA:\n");
+    printf("4. INFORMAR:\n");
+    printf("5. Salir\n");
+
+    scanf("%d",&opcion);
+
+    return opcion;
+
+
+}
+void inicializarEmpleados(eEmploye vec[],int tam)
+{
+    int i;
+    for(i = 0; i < tam; i++)
+    {
+        vec[i].isEmpty = 1;
+    }
+}
+
+int cargarUnEmpleado(eEmploye employes[], int tam,int id)
+{
+    int exito = 0;
+    char name[51];
+    char lastName[51];
+    float salary;
+    int sector;
+    int indice;
+
+    indice = buscarLibre(employes,tam);
+
+    if (indice == -1 )
+    {
+        printf("no se pueden cargar mas usuarios\n");
+    }
+    else
+    {
+        printf("Ingrese nombre: ");
+        fflush(stdin);
+        gets(name);
+
+        printf("Ingrese apellido: ");
+        fflush(stdin);
+        gets(lastName);
+
+        printf("Ingrese salario: ");
+        scanf("%f", &salary);
+
+        printf("Ingrese sector: ");
+        scanf("%d", &sector);
+
+employes[indice] = nuevoEmpleado(name,lastName,sector,salary,id);
+
+    }
+    exito = 1;
+    printf("alta exitosa\n");
+    system("pause");
+
+    return exito;
+}
+int buscarLibre(eEmploye employes[], int tam)
+{
+    int i;
+    int indice;
+    for (i=0; i < tam; i++)
+{
+
+
+        indice = -1;
+    if (employes[i].isEmpty == 1)
+    {
+        indice = i;
+        break;
+    }
+    }
+    return indice;
+
+}
+eEmploye nuevoEmpleado(char name[],char lastName[], int sector, float salary, int id)
+{
+ eEmploye emp;
+
+ emp.id = id;
+ strcpy(emp.name,name);
+ strcpy(emp.lastName,lastName);
+ emp.sector =sector;
+ emp.salary =salary;
+ emp.isEmpty = 0;
+
+ return emp;
+
+
+}
